@@ -5,8 +5,9 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# Remove files in job output directory from git
+# Remove files in job output directory from git, but keep the directory
 output/**
+!output/README.md
 
 # User-specific stuff
 .idea/**/workspace.xml
