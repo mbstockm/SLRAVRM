@@ -9,6 +9,10 @@
 output/**
 !output/README.md
 
+# Remove files in libs directory from git, but keep the directory
+libs/**
+!libs/README.md
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
