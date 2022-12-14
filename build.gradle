@@ -1,0 +1,106 @@
+import java.nio.file.Paths
+import java.time.LocalDateTime
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id "io.spring.dependency-management" version '1.1.0'
+}
+
+group 'edu.utica'
+version '1.0'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    implementation files('libs/ojdbc8.jar')
+    implementation files('libs/gurjbif.jar')
+
+    implementation 'com.opencsv:opencsv:5.6'
+
+    implementation 'com.itextpdf:kernel:7.2.4'
+    implementation 'com.itextpdf:layout:7.2.4'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+/**
+ * Job variables for buildscript
+ * Job name
+ * Job oneup#
+ * Database properties
+ */
+def job = 'SLRAVRM'
+def oneup = '9999999'
+def dbProps = {
+    Properties properties = new Properties()
+    Paths.get(System.properties.'user.home','.credentials','mbstockmProduction.properties').withInputStream {
+        properties.load(it)
+    }
+    return properties
+}.call()
+
+/**
+ * Task inserts job run parameters into gjbprun for development before start of banner batch processor
+ */
+task runParameters() {
+    configurations {
+        sql
+    }
+    dependencies {
+        sql files('libs/ojdbc8.jar')
+    }
+    doLast {
+        configurations.sql.each {
+            gradle.class.classLoader.addURL(it.toURI().toURL())
+        }
+        groovy.sql.Sql.withInstance(dbProps) { sql ->
+            def sysdate = java.sql.Timestamp.valueOf(LocalDateTime.now())
+            sql.execute('delete from gjbprun where gjbprun_job = ? and gjbprun_one_up_no = ?',[job,oneup])
+            sql.withBatch(10,'insert into gjbprun(gjbprun_job,gjbprun_one_up_no,gjbprun_number,gjbprun_activity_date,gjbprun_value) values (?,?,?,?,?)') { ps ->
+                ps.addBatch(job,oneup, '01', sysdate, '202280')
+            }
+        }
+    }
+}
+
+bootRun {
+    dependsOn(runParameters)
+
+    mainClass = 'com.sct.messaging.bif.banner.BannerBatchProcessor'
+
+    jvmArgs = [
+            '-Dbatch.processor.class=edu.utica.slce.jobsub.Slravrm',
+            '-Dspring.profiles.active=DEV'
+    ]
+
+    args = [dbProps.user + '/' + dbProps.password,dbProps.url,oneup,job]
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    mainClass = 'com.sct.messaging.bif.banner.BannerBatchProcessor'
+
+    enabled = true
+    archiveBaseName = job
+    archiveClassifier = ''
+    archiveVersion = ''
+
+}
+
+test {
+    useJUnitPlatform()
+}
