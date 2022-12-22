@@ -18,6 +18,11 @@ public class HousingAvailableRoomsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Using Spring JdbcTemplate query the Banner database to return List of HousingAvailableRoom.
+     * @param term
+     * @return
+     */
     public List<HousingAvailableRoom> findHousingAvailableRooms(String term) {
         List<HousingAvailableRoom> list =
                 jdbcTemplate.query("""

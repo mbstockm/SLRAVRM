@@ -20,6 +20,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Banner Job Submission Report SLRAVRM Housing Available Rooms .
+ * Example Java process using Ellucian Banner Batch Processor & Spring Boot with OpenCsv and iText libraries.
+ * @author Michael Stockman
+ */
 @SpringBootApplication
 public class Slravrm extends BannerBatchProcessor implements CommandLineRunner {
 
