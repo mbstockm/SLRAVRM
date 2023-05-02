@@ -1,4 +1,4 @@
-package edu.utica.slce.jobsub.config.database;
+package edu.utica.jobsub.slce.config.database;
 
 import com.sct.messaging.bif.BatchResourceHolder;
 import org.springframework.context.annotation.Bean;
@@ -9,15 +9,8 @@ import java.sql.Connection;
 
 @Configuration
 public class DataSourceConfig {
-
     @Bean
     SingleConnectionDataSource getDataSource() {
         return new SingleConnectionDataSource(BatchResourceHolder.getConnection(),true);
     }
-
-    @Bean
-    Connection getConnection() {
-        return BatchResourceHolder.getConnection();
-    }
-
 }

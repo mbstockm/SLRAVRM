@@ -1,4 +1,4 @@
-package edu.utica.slce.jobsub.pdf;
+package edu.utica.jobsub.slce.pdf;
 
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;

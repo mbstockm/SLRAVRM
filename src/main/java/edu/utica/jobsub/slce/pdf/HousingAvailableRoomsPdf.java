@@ -1,4 +1,4 @@
-package edu.utica.slce.jobsub.pdf;
+package edu.utica.jobsub.slce.pdf;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -12,8 +12,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.UnitValue;
-import edu.utica.slce.jobsub.logo.Logo;
-import edu.utica.slce.jobsub.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.logo.Logo;
+import edu.utica.jobsub.slce.model.HousingAvailableRoom;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

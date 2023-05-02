@@ -3,7 +3,7 @@ import java.time.LocalDateTime
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.5'
+    id 'org.springframework.boot' version '3.0.1'
     id "io.spring.dependency-management" version '1.1.0'
 }
 
@@ -11,8 +11,23 @@ group 'edu.utica'
 version '1.0'
 sourceCompatibility = '17'
 
+def packageProps = {
+    Properties properties = new Properties()
+    Paths.get(System.properties.'user.home','.credentials','githubPackagesRead.properties').withInputStream {
+        properties.load(it)
+    }
+    return properties
+}.call()
+
 repositories {
     mavenCentral()
+    maven {
+        url = uri('https://maven.pkg.github.com/utica-iits-ais/*')
+        credentials {
+            username = packageProps.username
+            password = packageProps.password
+        }
+    }
 }
 
 dependencies {
@@ -30,8 +45,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 /**
@@ -44,7 +57,7 @@ def job = 'SLRAVRM'
 def oneup = '9999999'
 def dbProps = {
     Properties properties = new Properties()
-    Paths.get(System.properties.'user.home','.credentials','mbstockmProduction.properties').withInputStream {
+    Paths.get(System.properties.'user.home','.credentials','userProduction.properties').withInputStream {
         properties.load(it)
     }
     return properties
@@ -80,7 +93,7 @@ bootRun {
     mainClass = 'com.sct.messaging.bif.banner.BannerBatchProcessor'
 
     jvmArgs = [
-            '-Dbatch.processor.class=edu.utica.slce.jobsub.Slravrm',
+            '-Dbatch.processor.class=edu.utica.jobsub.slce.Slravrm',
             '-Dspring.profiles.active=DEV'
     ]
 

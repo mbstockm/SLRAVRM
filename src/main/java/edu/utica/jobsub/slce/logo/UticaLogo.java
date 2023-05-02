@@ -1,4 +1,4 @@
-package edu.utica.slce.jobsub.logo;
+package edu.utica.jobsub.slce.logo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

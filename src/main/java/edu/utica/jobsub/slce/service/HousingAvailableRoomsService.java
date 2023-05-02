@@ -1,7 +1,7 @@
-package edu.utica.slce.jobsub.service;
+package edu.utica.jobsub.slce.service;
 
-import edu.utica.slce.jobsub.dao.HousingAvailableRoomsDao;
-import edu.utica.slce.jobsub.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.dao.HousingAvailableRoomsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

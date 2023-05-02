@@ -1,6 +1,6 @@
-package edu.utica.slce.jobsub.dao;
+package edu.utica.jobsub.slce.dao;
 
-import edu.utica.slce.jobsub.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.model.HousingAvailableRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,7 +63,7 @@ public class HousingAvailableRoomsDao {
               ,slrbcat_desc 
       having rd.slbrdef_capacity > count(decode(stvascd_count_in_usage,'Y',ra.slrrasg_pidm,null)) 
       order by building_code,room_code
-""",
+      """,
                         new BeanPropertyRowMapper(HousingAvailableRoom.class),
                         new Object[]{term}
                 );

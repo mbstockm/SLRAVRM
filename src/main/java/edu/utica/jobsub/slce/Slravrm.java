@@ -1,19 +1,21 @@
-package edu.utica.slce.jobsub;
+package edu.utica.jobsub.slce;
 
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.sct.messaging.bif.BatchProcessorException;
 import com.sct.messaging.bif.BatchResourceHolder;
 import com.sct.messaging.bif.banner.BannerBatchProcessor;
-import edu.utica.slce.jobsub.csv.HousingAvailableRoomsCsv;
-import edu.utica.slce.jobsub.model.HousingAvailableRoom;
-import edu.utica.slce.jobsub.pdf.HousingAvailableRoomsPdf;
-import edu.utica.slce.jobsub.service.HousingAvailableRoomsService;
+import edu.utica.jobsub.slce.logo.Logo;
+import edu.utica.jobsub.slce.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.service.HousingAvailableRoomsService;
+import edu.utica.jobsub.slce.csv.HousingAvailableRoomsCsv;
+import edu.utica.jobsub.slce.pdf.HousingAvailableRoomsPdf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -30,14 +32,14 @@ public class Slravrm extends BannerBatchProcessor implements CommandLineRunner {
 
     public static String jobName;
     public static String jobNumber;
-
     @Autowired
     private HousingAvailableRoomsService housingAvailableRoomsService;
     @Autowired
     private HousingAvailableRoomsCsv housingAvailableRoomsCsv;
     @Autowired
     private HousingAvailableRoomsPdf housingAvailableRoomsPdf;
-
+    @Autowired
+    private Logo logo;
     @Value("${csv.output.path}")
     private String csvPath;
     @Value("${pdf.output.path}")
@@ -45,7 +47,9 @@ public class Slravrm extends BannerBatchProcessor implements CommandLineRunner {
 
     @Override
     public void processJob() {
-        SpringApplication.run(Slravrm.class,new String[]{getJobName(),getJobNumber()});
+        new SpringApplicationBuilder(Slravrm.class)
+                .web(WebApplicationType.NONE)
+                .run(getJobName(),getJobNumber());
     }
 
     @Override

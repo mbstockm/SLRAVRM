@@ -1,9 +1,9 @@
-package edu.utica.slce.jobsub.csv;
+package edu.utica.jobsub.slce.csv;
 
 import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import edu.utica.slce.jobsub.model.HousingAvailableRoom;
+import edu.utica.jobsub.slce.model.HousingAvailableRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

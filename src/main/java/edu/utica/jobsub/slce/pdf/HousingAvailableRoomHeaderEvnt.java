@@ -1,4 +1,4 @@
-package edu.utica.slce.jobsub.pdf;
+package edu.utica.jobsub.slce.pdf;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.events.Event;
@@ -15,7 +15,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
-import edu.utica.slce.jobsub.logo.Logo;
+import edu.utica.jobsub.slce.logo.Logo;
 
 public class HousingAvailableRoomHeaderEvnt implements IEventHandler {
     private final Logo logo;
@@ -44,8 +44,6 @@ public class HousingAvailableRoomHeaderEvnt implements IEventHandler {
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(page.newContentStreamBefore(),page.getResources(),pdfDocument);
         try (Canvas canvas = new Canvas(pdfCanvas,pageSize)) {
-//            logo.scaleToFit(120f,100f)
-//                    .setFixedPosition((pageSize.getLeft() + document.getLeftMargin()),(pageSize.getTop() - 80));
             logo.scale(0.1f,0.1f)
                     .setFixedPosition((pageSize.getLeft() + document.getLeftMargin()),(pageSize.getTop() - 80));
             canvas.add(logo);
